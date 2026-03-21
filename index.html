@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heritage Hawks Track & Field</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1b2f6e;
+      --red:    #c41230;
+      --bg:     #f4f5f7;
+      --card:   #ffffff;
+      --text:   #1a1a1a;
+      --muted:  #666;
+      --border: #dde1e9;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--navy);
+      padding: 0;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1rem 2rem;
+    }
+
+    .header-logo {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .header-text { flex: 1; }
+
+    .header-text h1 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.5px;
+      line-height: 1.15;
+    }
+
+    .header-text .subtitle {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.75);
+      margin-top: 0.15rem;
+      font-weight: 400;
+    }
+
+    .header-badge {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .header-badge .season {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .header-badge .location {
+      font-size: 0.85rem;
+      color: #fff;
+      font-weight: 600;
+      margin-top: 0.15rem;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      padding: 0 2rem;
+      gap: 0;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: rgba(255,255,255,0.6);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      padding: 0.75rem 1.25rem;
+      text-transform: uppercase;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    nav button:hover { color: #fff; }
+    nav button.active { color: #fff; border-bottom-color: var(--red); }
+
+    /* ── MAIN ── */
+    main { padding: 2rem; max-width: 960px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .breadcrumb .crumb {
+      cursor: pointer;
+      color: var(--navy);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .breadcrumb .sep { color: #bbb; }
+
+    /* ── HEADINGS ── */
+    h2 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--navy);
+    }
+
+    h3 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 1.8rem 0 0.6rem;
+    }
+
+    /* ── ITEM LIST ── */
+    .item-list { list-style: none; }
+
+    .item-list li {
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 0;
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .item-list li:last-child { border-bottom: none; }
+
+    .item-list .link {
+      color: var(--navy);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-decoration: none;
+    }
+
+    .item-list .link:hover { color: var(--red); text-decoration: underline; }
+    .item-list .meta { color: var(--muted); font-size: 0.8rem; }
+
+    /* ── TABLES ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.87rem;
+      margin-top: 0.4rem;
+      background: var(--card);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    }
+
+    thead tr { background: var(--navy); }
+
+    th {
+      color: rgba(255,255,255,0.85);
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.8px;
+      padding: 0.55rem 0.9rem;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    td { padding: 0.5rem 0.9rem; color: var(--text); }
+
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f0f3ff; }
+
+    td.link {
+      color: var(--navy);
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    td.link:hover { color: var(--red); text-decoration: underline; }
+
+    td.place-1 { color: #b8860b; font-weight: 700; }
+    td.place-2 { color: #666; font-weight: 600; }
+    td.place-3 { color: #a0522d; font-weight: 600; }
+
+    .hawk { color: var(--navy); font-weight: 700; }
+    .pr {
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 0.3rem;
+    }
+
+    /* ── ATHLETE / MEET HEADERS ── */
+    .athlete-header, .meet-header { margin-bottom: 1.5rem; }
+
+    .athlete-header .name,
+    .meet-header .name {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .athlete-header .info,
+    .meet-header .info {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 0.3rem;
+    }
+
+    /* ── SUMMARY BOX ── */
+    .summary-box {
+      background: var(--navy);
+      border-radius: 8px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #fff;
+    }
+
+    .summary-box h3 {
+      margin-top: 0;
+      margin-bottom: 0.8rem;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.68rem;
+      letter-spacing: 1.5px;
+    }
+
+    .summary-row { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+
+    .summary-stat .label {
+      display: block;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 0.15rem;
+    }
+
+    .summary-stat .value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .hidden { display: none; }
+    .section { display: none; }
+    .section.active { display: block; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <img class="header-logo" src="images/logo-hawk.png" alt="Heritage Hawks" />
+    <div class="header-text">
+      <h1>Heritage Hawks</h1>
+      <div class="subtitle">Varsity Track &amp; Field</div>
+    </div>
+    <div class="header-badge">
+      <div class="season">2025&ndash;26</div>
+      <div class="location">Newnan, GA</div>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <button id="nav-roster" class="active" onclick="showSection('roster')">Roster</button>
+  <button id="nav-meets" onclick="showSection('meets')">Meets</button>
+  <button id="nav-results" onclick="showSection('results')">Results</button>
+</nav>
+
+<main>
+
+  <!-- ===== ROSTER ===== -->
+  <div id="section-roster" class="section active">
+    <div id="roster-list-view">
+      <h2>Roster</h2>
+      <ul class="item-list" id="roster-list"></ul>
+    </div>
+    <div id="roster-detail-view" class="hidden">
+      <div class="breadcrumb">
+        <span class="crumb" onclick="showRosterList()">Roster</span>
+        <span class="sep">/</span>
+        <span id="roster-detail-name"></span>
+      </div>
+      <div class="athlete-header">
+        <div class="name" id="roster-detail-title"></div>
+        <div class="info" id="roster-detail-info"></div>
+      </div>
+      <div id="roster-detail-body"></div>
+    </div>
+  </div>
+
+  <!-- ===== MEETS ===== -->
+  <div id="section-meets" class="section">
+    <div id="meets-list-view">
+      <h2>Meet Schedule</h2>
+      <ul class="item-list" id="meets-list"></ul>
+    </div>
+    <div id="meets-detail-view" class="hidden">
+      <div class="breadcrumb">
+        <span class="crumb" onclick="showMeetsList()">Meets</span>
+        <span class="sep">/</span>
+        <span id="meets-detail-name"></span>
+      </div>
+      <div class="meet-header">
+        <div class="name" id="meets-detail-title"></div>
+        <div class="info" id="meets-detail-info"></div>
+      </div>
+      <div id="meets-detail-body"></div>
+    </div>
+  </div>
+
+  <!-- ===== RESULTS ===== -->
+  <div id="section-results" class="section">
+    <div id="results-list-view">
+      <h2>Top Results by Event</h2>
+      <ul class="item-list" id="results-list"></ul>
+    </div>
+    <div id="results-detail-view" class="hidden">
+      <div class="breadcrumb">
+        <span class="crumb" onclick="showResultsList()">Results</span>
+        <span class="sep">/</span>
+        <span id="results-detail-name"></span>
+      </div>
+      <div id="results-detail-body"></div>
+    </div>
+  </div>
+
+</main>
+
+<script src="data.js"></script>
+<script>
+// =============================================================
+//  HELPERS  (data loaded from data.js)
+// =============================================================
+
+function getAthlete(id) { return athletes.find(a => a.id === id); }
+function getMeet(id)    { return meets.find(m => m.id === id); }
+
+function placeClass(p) {
+  if (p === 1) return 'place-1';
+  if (p === 2) return 'place-2';
+  if (p === 3) return 'place-3';
+  return '';
+}
+
+function placeLabel(p) {
+  if (p === 1) return '1st';
+  if (p === 2) return '2nd';
+  if (p === 3) return '3rd';
+  return p + 'th';
+}
+
+function formatDate(d) {
+  const [y,m,day] = d.split('-');
+  const months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[+m]} ${+day}, ${y}`;
+}
+
+function gradeLabel(g) {
+  return g > 0 ? `Gr. ${g}` : '\u2014';
+}
+
+function meetHawkResults(meetId) {
+  return results.filter(r => r.meetId === meetId);
+}
+
+function allEvents() {
+  return [...new Set(results.map(r => r.event))].sort();
+}
+
+function topResultsByEvent(event) {
+  const evResults = results.filter(r => r.event === event);
+  const byAthlete = {};
+  evResults.forEach(r => {
+    if (!byAthlete[r.athleteId] || r.place < byAthlete[r.athleteId].place) {
+      byAthlete[r.athleteId] = r;
+    }
+  });
+  return Object.values(byAthlete).sort((a,b) => a.place - b.place);
+}
+
+// =============================================================
+//  NAVIGATION
+// =============================================================
+
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + name).classList.add('active');
+  document.getElementById('nav-' + name).classList.add('active');
+}
+
+// =============================================================
+//  ROSTER
+// =============================================================
+
+function renderRosterList() {
+  const ul = document.getElementById('roster-list');
+  const males   = athletes.filter(a => a.gender === 'M').sort((a,b) => a.name.localeCompare(b.name));
+  const females = athletes.filter(a => a.gender === 'F').sort((a,b) => a.name.localeCompare(b.name));
+
+  let html = '';
+  html += `<li style="color:var(--gold);font-size:0.75rem;letter-spacing:2px;padding-bottom:0.3rem;border-bottom:1px solid #333;">BOYS</li>`;
+  males.forEach(a => {
+    html += `<li>
+      <span class="link" onclick="showAthleteDetail(${a.id})">${a.name}</span>
+      <span class="meta">${gradeLabel(a.grade)} &mdash; ${a.events.join(', ')}</span>
+    </li>`;
+  });
+  html += `<li style="color:var(--gold);font-size:0.75rem;letter-spacing:2px;padding:1rem 0 0.3rem;border-bottom:1px solid #333;margin-top:0.5rem;">GIRLS</li>`;
+  females.forEach(a => {
+    html += `<li>
+      <span class="link" onclick="showAthleteDetail(${a.id})">${a.name}</span>
+      <span class="meta">${gradeLabel(a.grade)} &mdash; ${a.events.join(', ')}</span>
+    </li>`;
+  });
+  ul.innerHTML = html;
+}
+
+function showRosterList() {
+  document.getElementById('roster-list-view').classList.remove('hidden');
+  document.getElementById('roster-detail-view').classList.add('hidden');
+}
+
+function showAthleteDetail(athleteId) {
+  const a = getAthlete(athleteId);
+  document.getElementById('roster-list-view').classList.add('hidden');
+  document.getElementById('roster-detail-view').classList.remove('hidden');
+  document.getElementById('roster-detail-name').textContent = a.name;
+  document.getElementById('roster-detail-title').textContent = a.name;
+  document.getElementById('roster-detail-info').textContent =
+    `${gradeLabel(a.grade)}  |  ${a.gender === 'M' ? 'Boys' : 'Girls'}  |  Events: ${a.events.join(', ')}`;
+
+  const athleteResults = results.filter(r => r.athleteId === athleteId);
+  const byEvent = {};
+  athleteResults.forEach(r => {
+    if (!byEvent[r.event]) byEvent[r.event] = [];
+    byEvent[r.event].push(r);
+  });
+
+  let html = '';
+  Object.keys(byEvent).sort().forEach(event => {
+    const rows = byEvent[event].sort((a,b) => a.meetId - b.meetId);
+    html += `<h3>${event}</h3>
+    <table>
+      <thead><tr><th>Meet</th><th>Date</th><th>Result</th><th>Place</th><th></th></tr></thead>
+      <tbody>`;
+    rows.forEach(r => {
+      const m = getMeet(r.meetId);
+      html += `<tr>
+        <td class="link" onclick="showSection('meets');showMeetDetail(${m.id})">${m.name}</td>
+        <td>${formatDate(m.date)}</td>
+        <td>${r.result}</td>
+        <td class="${placeClass(r.place)}">${placeLabel(r.place)}</td>
+        <td>${r.pr ? '<span class="pr">PR</span>' : ''}</td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+  });
+
+  if (!html) html = `<p style="color:var(--muted);margin-top:1rem;">No results recorded yet.</p>`;
+  document.getElementById('roster-detail-body').innerHTML = html;
+}
+
+// =============================================================
+//  MEETS
+// =============================================================
+
+function renderMeetsList() {
+  const ul = document.getElementById('meets-list');
+  const today = new Date().toISOString().slice(0,10);
+  let html = '';
+  meets.forEach(m => {
+    const past = m.date <= today;
+    html += `<li>
+      <span class="${past ? 'link' : ''}" ${past ? `onclick="showMeetDetail(${m.id})"` : ''}>${m.name}</span>
+      <span class="meta">${formatDate(m.date)} &mdash; ${m.location} &mdash; ${m.type}${!past ? ' (upcoming)' : ''}</span>
+    </li>`;
+  });
+  ul.innerHTML = html;
+}
+
+function showMeetsList() {
+  document.getElementById('meets-list-view').classList.remove('hidden');
+  document.getElementById('meets-detail-view').classList.add('hidden');
+}
+
+function showMeetDetail(meetId) {
+  showSection('meets');
+  const m = getMeet(meetId);
+  document.getElementById('meets-list-view').classList.add('hidden');
+  document.getElementById('meets-detail-view').classList.remove('hidden');
+  document.getElementById('meets-detail-name').textContent = m.name;
+  document.getElementById('meets-detail-title').textContent = m.name;
+  document.getElementById('meets-detail-info').textContent =
+    `${formatDate(m.date)}  |  ${m.location}  |  ${m.type}`;
+
+  const hawkResults = meetHawkResults(meetId);
+  const wins = hawkResults.filter(r => r.place === 1).length;
+  const top3 = hawkResults.filter(r => r.place <= 3).length;
+  const prs  = hawkResults.filter(r => r.pr).length;
+
+  let html = `<div class="summary-box">
+    <h3>Heritage Hawks Summary</h3>
+    <div class="summary-row">
+      <div class="summary-stat"><span class="label">Events entered:</span>${hawkResults.length}</div>
+      <div class="summary-stat"><span class="label">Event wins:</span>${wins}</div>
+      <div class="summary-stat"><span class="label">Top-3 finishes:</span>${top3}</div>
+      <div class="summary-stat"><span class="label">PRs set:</span>${prs}</div>
+    </div>
+  </div>`;
+
+  html += `<h3>Heritage Results</h3>
+  <table>
+    <thead><tr><th>Event</th><th>Athlete</th><th>Result</th><th>Place</th><th></th></tr></thead>
+    <tbody>`;
+  hawkResults.sort((a,b) => a.event.localeCompare(b.event) || a.place - b.place).forEach(r => {
+    const a = getAthlete(r.athleteId);
+    html += `<tr>
+      <td>${r.event}</td>
+      <td class="link" onclick="showAthleteDetail(${a.id});showSection('roster')">${a.name}</td>
+      <td>${r.result}</td>
+      <td class="${placeClass(r.place)}">${placeLabel(r.place)}</td>
+      <td>${r.pr ? '<span class="pr">PR</span>' : ''}</td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+
+  const competitors = meetCompetitors[meetId];
+  if (competitors && competitors.length) {
+    const events  = [...new Set(competitors.map(c => c.event))].sort();
+    ['M','F'].forEach(g => {
+      const gLabel  = g === 'M' ? 'Boys' : 'Girls';
+      const gEvents = events.filter(ev => competitors.some(c => c.event === ev && c.gender === g));
+      if (!gEvents.length) return;
+      html += `<h3>Full Results &mdash; ${gLabel}</h3>`;
+      gEvents.forEach(ev => {
+        const rows = competitors.filter(c => c.event === ev && c.gender === g)
+                                .sort((a,b) => a.place - b.place);
+        if (!rows.length) return;
+        html += `<p style="color:var(--muted);font-size:0.8rem;margin:1rem 0 0.3rem;letter-spacing:1px;">${ev}</p>
+        <table>
+          <thead><tr><th>Place</th><th>Athlete / Team</th><th>Result</th></tr></thead>
+          <tbody>`;
+        rows.forEach(c => {
+          html += `<tr>
+            <td class="${placeClass(c.place)}">${placeLabel(c.place)}</td>
+            <td class="${c.hawk ? 'hawk' : ''}">${c.name}</td>
+            <td>${c.result}</td>
+          </tr>`;
+        });
+        html += `</tbody></table>`;
+      });
+    });
+  } else {
+    html += `<p style="color:var(--muted);margin-top:1.5rem;font-size:0.85rem;">Full competitor results not available for this meet.</p>`;
+  }
+
+  document.getElementById('meets-detail-body').innerHTML = html;
+}
+
+// =============================================================
+//  RESULTS
+// =============================================================
+
+function renderResultsList() {
+  const ul = document.getElementById('results-list');
+  const events     = allEvents();
+  const fieldEvts  = ['Long Jump','Triple Jump','High Jump','Pole Vault','Shot Put','Discus','Javelin'];
+  const track      = events.filter(e => !fieldEvts.includes(e));
+  const field      = events.filter(e =>  fieldEvts.includes(e));
+
+  let html = `<li style="color:var(--gold);font-size:0.75rem;letter-spacing:2px;padding-bottom:0.3rem;border-bottom:1px solid #333;">TRACK</li>`;
+  track.forEach(ev => {
+    const top  = topResultsByEvent(ev);
+    const best = top[0];
+    if (!best) return;
+    const a = getAthlete(best.athleteId);
+    html += `<li>
+      <span class="link" onclick="showResultDetail('${ev.replace(/'/g,"\\'")}')">${ev}</span>
+      <span class="meta">Best: ${a.name} &mdash; ${best.result} (${placeLabel(best.place)}, ${getMeet(best.meetId).name})</span>
+    </li>`;
+  });
+
+  html += `<li style="color:var(--gold);font-size:0.75rem;letter-spacing:2px;padding:1rem 0 0.3rem;border-bottom:1px solid #333;margin-top:0.5rem;">FIELD</li>`;
+  field.forEach(ev => {
+    const top  = topResultsByEvent(ev);
+    const best = top[0];
+    if (!best) return;
+    const a = getAthlete(best.athleteId);
+    html += `<li>
+      <span class="link" onclick="showResultDetail('${ev.replace(/'/g,"\\'")}')">${ev}</span>
+      <span class="meta">Best: ${a.name} &mdash; ${best.result} (${placeLabel(best.place)}, ${getMeet(best.meetId).name})</span>
+    </li>`;
+  });
+
+  ul.innerHTML = html;
+}
+
+function showResultsList() {
+  document.getElementById('results-list-view').classList.remove('hidden');
+  document.getElementById('results-detail-view').classList.add('hidden');
+}
+
+function showResultDetail(event) {
+  document.getElementById('results-list-view').classList.add('hidden');
+  document.getElementById('results-detail-view').classList.remove('hidden');
+  document.getElementById('results-detail-name').textContent = event;
+
+  const evResults = results.filter(r => r.event === event)
+                           .sort((a,b) => a.place - b.place || a.meetId - b.meetId);
+
+  let html = `<h2>${event} &mdash; Heritage Results</h2>
+  <table>
+    <thead><tr><th>Place</th><th>Athlete</th><th>Result</th><th>Meet</th><th>Date</th><th></th></tr></thead>
+    <tbody>`;
+
+  evResults.forEach(r => {
+    const a = getAthlete(r.athleteId);
+    const m = getMeet(r.meetId);
+    html += `<tr>
+      <td class="${placeClass(r.place)}">${placeLabel(r.place)}</td>
+      <td class="link" onclick="showAthleteDetail(${a.id});showSection('roster')">${a.name}</td>
+      <td>${r.result}</td>
+      <td class="link" onclick="showMeetDetail(${m.id});showSection('meets')">${m.name}</td>
+      <td>${formatDate(m.date)}</td>
+      <td>${r.pr ? '<span class="pr">PR</span>' : ''}</td>
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById('results-detail-body').innerHTML = html;
+}
+
+// =============================================================
+//  INIT
+// =============================================================
+
+renderRosterList();
+renderMeetsList();
+renderResultsList();
+</script>
+</body>
+</html>
